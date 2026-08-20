@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap');
+
+:root {
+  font-family: 'Sora', system-ui, sans-serif;
+  color: #e7edeb;
+  background: #0b0f0d;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+
+  --bg-primary: #0b0f0d;
+  --bg-secondary: #111715;
+  --bg-card: rgba(17, 23, 21, 0.72);
+
+  --emerald: #00d99a;
+  --mint: #66ffc2;
+  --emerald-dark: #0f2a23;
+
+  --text-primary: #e7edeb;
+  --text-secondary: #a6b0aa;
+  --text-muted: #6f7b75;
+
+  --border: rgba(102, 255, 194, 0.12);
+  --border-active: rgba(102, 255, 194, 0.4);
+
+  --glow: 0 0 40px rgba(0, 217, 154, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg-primary);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 75% 25%,
+      rgba(0, 217, 154, 0.08),
+      transparent 32%
+    ),
+    var(--bg-primary);
+  color: var(--text-primary);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+#root {
+  min-height: 100vh;
+}
