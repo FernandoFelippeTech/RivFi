@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Eye, EyeOff, LockKeyhole, Mail } from 'lucide-react'
 import { supabase } from '../lib/supabase'
+import rivfiLogo from '../assets/rivfi-logo.png'
 import '../styles/Login.css'
 
 function Login() {
@@ -36,13 +37,14 @@ function Login() {
       <div className="login-glow login-glow-two" />
 
       <section className="login-container">
+        {/* PAINEL DE LOGIN */}
         <div className="login-panel">
           <div className="brand">
-            <div className="brand-symbol" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </div>
+            <img
+              src={rivfiLogo}
+              alt="Símbolo RivFi"
+              className="brand-logo"
+            />
 
             <span className="brand-name">
               Riv<span>Fi</span>
@@ -52,7 +54,9 @@ function Login() {
           <div className="login-content">
             <div className="login-heading">
               <span className="eyebrow">ACESSO SEGURO</span>
+
               <h1>Bem-vindo de volta</h1>
+
               <p>Entre na sua conta para continuar.</p>
             </div>
 
@@ -62,6 +66,7 @@ function Login() {
 
                 <div className="input-wrapper">
                   <Mail size={18} />
+
                   <input
                     id="email"
                     type="email"
@@ -77,7 +82,11 @@ function Login() {
               <div className="field-group">
                 <div className="password-label">
                   <label htmlFor="password">Senha</label>
-                  <button type="button" className="forgot-password">
+
+                  <button
+                    type="button"
+                    className="forgot-password"
+                  >
                     Esqueceu sua senha?
                   </button>
                 </div>
@@ -98,18 +107,40 @@ function Login() {
                   <button
                     type="button"
                     className="password-toggle"
-                    onClick={() => setShowPassword((current) => !current)}
-                    aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                    onClick={() =>
+                      setShowPassword((current) => !current)
+                    }
+                    aria-label={
+                      showPassword
+                        ? 'Ocultar senha'
+                        : 'Mostrar senha'
+                    }
                   >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    {showPassword ? (
+                      <EyeOff size={18} />
+                    ) : (
+                      <Eye size={18} />
+                    )}
                   </button>
                 </div>
               </div>
 
-              {message && <p className="login-message">{message}</p>}
+              {message && (
+                <p className="login-message">
+                  {message}
+                </p>
+              )}
 
-              <button className="login-button" type="submit" disabled={loading}>
-                {loading ? <span className="spinner" /> : 'Entrar'}
+              <button
+                className="login-button"
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="spinner" />
+                ) : (
+                  'Entrar'
+                )}
               </button>
             </form>
           </div>
@@ -119,25 +150,31 @@ function Login() {
           </p>
         </div>
 
+        {/* PAINEL VISUAL */}
         <div className="visual-panel">
           <div className="visual-grid" />
 
-          <div className="flow-orb" aria-hidden="true">
-            <span className="flow flow-one" />
-            <span className="flow flow-two" />
-            <span className="flow flow-three" />
+          <div className="hero-logo-wrapper">
+            <img
+              src={rivfiLogo}
+              alt=""
+              aria-hidden="true"
+              className="hero-logo"
+            />
           </div>
 
           <div className="visual-copy">
             <span>RIVFI</span>
+
             <h2>
               Inteligência para colocar
               <br />
               seu dinheiro em <strong>movimento.</strong>
             </h2>
+
             <p>
-              Controle, clareza e tecnologia para uma vida financeira mais
-              inteligente.
+              Controle, clareza e tecnologia para uma vida financeira
+              mais inteligente.
             </p>
           </div>
         </div>
