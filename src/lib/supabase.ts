@@ -1,13 +1,22 @@
 import { createClient } from '@supabase/supabase-js'
+import { configurationIssue } from './config'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabasePublishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+const url = import.meta.env.VITE_SUPABASE_URL?.trim()
+const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY?.trim()
 
-if (!supabaseUrl || !supabasePublishableKey) {
-  throw new Error('Supabase environment variables are missing.')
+export const configurationError = configurationIssue(url, key)
+export const supabase = configurationError ? null : createClient(url!, key!, {
+  global: {
+    fetch: (input, init) => fetch(input, {
+      ...init,
+      signal: init?.signal
+        ? AbortSignal.any([init.signal, AbortSignal.timeout(20000)])
+        : AbortSignal.timeout(20000),
+    }),
+  },
+})
+
+export function client() {
+  if (!supabase) throw new Error(configurationError)
+  return supabase
 }
-
-export const supabase = createClient(
-  supabaseUrl,
-  supabasePublishableKey
-)

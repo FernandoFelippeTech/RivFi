@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Eye, EyeOff, LockKeyhole, Mail } from 'lucide-react'
-import { supabase } from '../lib/supabase'
+import { client } from '../lib/supabase'
 import rivfiLogo from '../assets/rivfi-logo.png'
 import '../styles/Login.css'
 
@@ -17,18 +17,21 @@ function Login() {
     setLoading(true)
     setMessage('')
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-
-    if (error) {
-      setMessage('E-mail ou senha inválidos.')
-      setLoading(false)
-      return
-    }
-
-    setLoading(false)
+    try {
+      const { error } = await client().auth.signInWithPassword({ email, password })
+      if (error) setMessage(error.code === 'invalid_credentials' ? 'E-mail ou senha inválidos.' : 'Não foi possível entrar. Verifique a conexão e a disponibilidade do Supabase.')
+    } catch { setMessage('Não foi possível conectar. Verifique sua conexão e tente novamente.') }
+    finally { setLoading(false) }
+  }
+  async function recoverPassword() {
+    if (!email.trim()) { setMessage('Preencha seu e-mail para receber o link de recuperação.'); return }
+    setLoading(true); setMessage('')
+    try {
+      const { error } = await client().auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + import.meta.env.BASE_URL })
+      if (error) throw error
+      setMessage('Se houver uma conta para este e-mail, você receberá um link de recuperação.')
+    } catch { setMessage('Não foi possível solicitar a recuperação. Tente novamente mais tarde.') }
+    finally { setLoading(false) }
   }
 
   return (
@@ -86,6 +89,8 @@ function Login() {
                   <button
                     type="button"
                     className="forgot-password"
+                    disabled={loading}
+                    onClick={() => void recoverPassword()}
                   >
                     Esqueceu sua senha?
                   </button>
@@ -126,7 +131,7 @@ function Login() {
               </div>
 
               {message && (
-                <p className="login-message">
+                <p className="login-message" role="status">
                   {message}
                 </p>
               )}
